@@ -1,5 +1,3 @@
-console.log("Hello world, from Nerding I/O", "stuff");
-
 function showStickyHeader(data) {
   const header = document.createElement("div");
   // ID
@@ -12,16 +10,15 @@ function showStickyHeader(data) {
   // Append
   document.body.appendChild(header);
 
-  // Remove after 5 seconds
+  //Remove after 5 seconds
   setTimeout(function () {
     header.remove();
-  }, 10000);
+  }, 5000);
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log("content", request);
   const { action, data } = request;
-
   if (action === "model_progress" && data.status === "done") {
     showStickyHeader(data);
   }

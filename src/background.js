@@ -28,24 +28,24 @@ if (
     progress_callback: (data) => {
       // If you would like to add a progress bar for model loading,
       // you can send `data` back to the UI.
-      console.log(data);
 
       (async () => {
         const sendData = {
           action: "model_progress",
           data,
         };
-        //  Tab
+        // Tab
         const [tab] = await chrome.tabs.query({
           active: true,
-          lastFocusedWindow: true,
+          currentWindow: true,
         });
-        //  Message to content
-        const content = await chrome.tabs.sendMessage(tab.id, sendData);
-        //   Message to popup
-        const response = await chrome.runtime.sendMessage(sendData);
-        // do something with response here, not outside the function
-        console.log("BG response", response);
+        if (tab) {
+          // Message to content
+          const content = await chrome.tabs.sendMessage(tab.id, sendData);
+          // Message to popup
+          const response = await chrome.runtime.sendMessage(sendData);
+          console.log("BG response", response);
+        }
       })();
     },
   });
